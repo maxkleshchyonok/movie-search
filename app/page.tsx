@@ -1,23 +1,23 @@
 "use client";
-import { Box } from "@mantine/core";
+import { AppShell, Skeleton } from "@mantine/core";
+import styled from "@emotion/styled";
+import Sidebar from "@/components/sidebar/sidebar.comp";
+
+const StyledAppShell = styled(AppShell)`
+  background: #f5f5f6;
+`;
 
 export default function HomePage() {
   return (
-    <Box
-      sx={(theme, u) => ({
-        padding: 40,
-
-        [u.light]: {
-          backgroundColor: theme.colors.blue[0],
-          color: theme.colors.blue[9],
-
-          "&:hover": {
-            backgroundColor: theme.colors.blue[1],
-          },
-        },
-      })}
-    >
-      Box with emotion sx prop
-    </Box>
+    <>
+      <StyledAppShell
+        navbar={{ width: 300, breakpoint: "sm" }}
+        padding="md"
+        withBorder={false}
+      >
+        <Sidebar activeIndex={0} />
+        <AppShell.Main>Main</AppShell.Main>
+      </StyledAppShell>
+    </>
   );
 }

@@ -5,8 +5,8 @@ import { RootStyleRegistry } from "./EmotionRootStyleRegistry";
 import { MantineEmotionProvider, emotionTransform } from "@mantine/emotion";
 
 export const metadata = {
-  title: "Mantine Next.js template",
-  description: "I am using Mantine with Next.js!",
+  title: "Movie search",
+  description: "Find and rate movies",
 };
 
 export default function RootLayout({ children }: { children: any }) {
