@@ -2,6 +2,7 @@ import React from "react";
 import FiltersSelect from "./filters-select.comp";
 import styled from "@emotion/styled";
 import RatingsFilter from "./ratings.comp";
+import ResetFilters from "./reset.comp";
 
 const genres: string[] = [
   "Drama",
@@ -49,6 +50,7 @@ function Filters() {
         optionsArray={releaseYear}
       />
       <RatingsFilter />
+      <ResetFilters />
     </FiltersContainer>
   );
 }

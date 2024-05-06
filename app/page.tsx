@@ -3,6 +3,7 @@ import { AppShell, MultiSelect, Skeleton, Title } from "@mantine/core";
 import styled from "@emotion/styled";
 import Sidebar from "@/components/sidebar/sidebar.comp";
 import Filters from "@/components/filters/filters.comp";
+import SortingInput from "@/components/sorting/sorting.comp";
 
 const StyledAppShell = styled(AppShell)`
   background: #f5f5f6;
@@ -26,6 +27,7 @@ export default function HomePage() {
       <AppShell.Main>
         <StyledTitle>Movies</StyledTitle>
         <Filters />
+        <SortingInput />
       </AppShell.Main>
     </StyledAppShell>
   );
