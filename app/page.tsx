@@ -5,9 +5,11 @@ import Sidebar from "@/components/sidebar/sidebar.comp";
 import Filters from "@/components/filters/filters.comp";
 import SortingInput from "@/components/sorting/sorting.comp";
 import Movies from "@/components/movies/movies.comp";
+import PaginationElement from "@/components/pagination/pagination.comp";
+import colors from "@/helpers/index";
 
 const StyledAppShell = styled(AppShell)`
-  background: #f5f5f6;
+  background: ${colors["grey-100"]};
 `;
 
 const StyledTitle = styled(Title)`
@@ -30,6 +32,7 @@ export default function HomePage() {
         <Filters />
         <SortingInput />
         <Movies />
+        <PaginationElement />
       </AppShell.Main>
     </StyledAppShell>
   );

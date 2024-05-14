@@ -1,5 +1,5 @@
 import React from "react";
-import MovieCard from "./movie-card/card.comp";
+import MovieCard, { CardSize } from "./movie-card/card.comp";
 import styled from "@emotion/styled";
 
 const movies = [
@@ -92,6 +92,7 @@ function Movies() {
     <Container>
       {movies.map((el) => (
         <MovieCard
+          id={el.id}
           key={el.id}
           title={el.title}
           year={el.year}
@@ -99,6 +100,9 @@ function Movies() {
           genres={el.genres}
           image={el.image}
           views={el.views}
+          cardSize={CardSize.small}
+          imageHeight={200}
+          imageWidth={150}
         />
       ))}
     </Container>
