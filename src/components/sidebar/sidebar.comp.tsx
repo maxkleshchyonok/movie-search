@@ -1,19 +1,10 @@
 "use client";
 import styled from "@emotion/styled";
-import { AppShell, NavLink, Title } from "@mantine/core";
-import logo from "@/assets/logo.svg";
-import Image from "next/image";
+import { AppShell, NavLink } from "@mantine/core";
+import LogoComponent from "../logo/logo";
 
 const StyledNavbar = styled(AppShell.Navbar)`
   background: #f2ecfa;
-`;
-
-const StyledLogo = styled("div")`
-  display: flex;
-  align-items: center;
-  color: rgba(152, 84, 246, 1);
-  gap: 3%;
-  margin-bottom: 8vh;
 `;
 
 const SidebarArray = [
@@ -32,10 +23,7 @@ const notActiveNavLink = {
 export default function Sidebar({ activeIndex }: { activeIndex: number }) {
   return (
     <StyledNavbar p="md">
-      <StyledLogo>
-        <Image src={logo} alt="logo" />
-        <Title order={2}>ArrowFlicks</Title>
-      </StyledLogo>
+      <LogoComponent />
       {SidebarArray.map((el, index) => (
         <NavLink
           key={el.key}
