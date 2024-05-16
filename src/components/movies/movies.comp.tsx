@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MovieCard, { CardSize } from "./movie-card/card.comp";
 import styled from "@emotion/styled";
+import { RatedMovies } from "app/rated/page";
 
 const movies = [
   {
-    id: 1,
+    id: "1",
     title: "The Spectacular Journey",
     year: 2023,
     rating: 8.2,
@@ -14,7 +15,7 @@ const movies = [
     genres: ["Action", "Adventure", "Sci-Fi"],
   },
   {
-    id: 2,
+    id: "2",
     title: "Dreamscape",
     year: 2024,
     rating: 7.9,
@@ -23,7 +24,7 @@ const movies = [
     genres: ["Mystery", "Thriller", "Drama"],
   },
   {
-    id: 3,
+    id: "3",
     title: "The Forgotten Voyage",
     year: 2023,
     rating: 6.5,
@@ -33,7 +34,7 @@ const movies = [
     genres: ["Adventure", "Fantasy"],
   },
   {
-    id: 4,
+    id: "4",
     title: "Echoes of Darkness",
     year: 2024,
     rating: 9.1,
@@ -42,7 +43,7 @@ const movies = [
     genres: ["Horror", "Mystery", "Thriller"],
   },
   {
-    id: 5,
+    id: "5",
     title: "Rise of the Machines",
     year: 2023,
     rating: 7.6,
@@ -51,7 +52,7 @@ const movies = [
     genres: ["Action", "Sci-Fi"],
   },
   {
-    id: 6,
+    id: "6",
     title: "The Enchanted Forest",
     year: 2024,
     rating: 8.5,
@@ -60,7 +61,7 @@ const movies = [
     genres: ["Animation", "Fantasy"],
   },
   {
-    id: 7,
+    id: "7",
     title: "Lost in Time",
     year: 2023,
     rating: 7.1,
@@ -69,7 +70,7 @@ const movies = [
     genres: ["Adventure", "Sci-Fi"],
   },
   {
-    id: 8,
+    id: "8",
     title: "The Secret Code",
     year: 2024,
     rating: 7.8,
@@ -79,6 +80,10 @@ const movies = [
   },
 ];
 
+type Props = {
+  movies: RatedMovies[];
+};
+
 const Container = styled("div")`
   width: 90%;
   display: flex;
@@ -87,25 +92,81 @@ const Container = styled("div")`
   margin: 5%;
 `;
 
-function Movies() {
+function Movies(props: Props | null) {
+  const [ratedMovies, setRatedMovies] = useState<typeof movies>([]);
+  useEffect(() => {
+    if (props?.movies) {
+      const newRatedMovies: typeof movies = [];
+      for (let i = 0; i < props.movies.length; i++) {
+        const matchedMovie = movies.find(
+          (movie) => props!.movies[i].id === movie.id.toString()
+        );
+        if (matchedMovie) {
+          newRatedMovies.push({
+            id: props.movies[i].id,
+            title: matchedMovie.title,
+            year: matchedMovie.year,
+            rating: matchedMovie.rating,
+            views: matchedMovie.views,
+            image: matchedMovie.image,
+            genres: matchedMovie.genres,
+          });
+        }
+      }
+      setRatedMovies(newRatedMovies);
+    }
+  }, []);
   return (
     <Container>
-      {movies.map((el) => (
-        <MovieCard
-          id={el.id}
-          key={el.id}
-          title={el.title}
-          year={el.year}
-          rating={el.rating}
-          genres={el.genres}
-          image={el.image}
-          views={el.views}
-          cardSize={CardSize.small}
-          imageHeight={200}
-          imageWidth={150}
-        />
-      ))}
+      {ratedMovies.length
+        ? ratedMovies.map((el) => (
+            <MovieCard
+              id={el.id}
+              key={el.id}
+              title={el.title}
+              year={el.year}
+              rating={el.rating}
+              genres={el.genres}
+              image={el.image}
+              views={el.views}
+              cardSize={CardSize.small}
+              imageHeight={200}
+              imageWidth={150}
+            />
+          ))
+        : movies.map((el) => (
+            <MovieCard
+              id={el.id}
+              key={el.id}
+              title={el.title}
+              year={el.year}
+              rating={el.rating}
+              genres={el.genres}
+              image={el.image}
+              views={el.views}
+              cardSize={CardSize.small}
+              imageHeight={200}
+              imageWidth={150}
+            />
+          ))}
     </Container>
+    // <Container>
+    //   {movies.map((el) => (
+    //     <MovieCard
+    //       id={el.id}
+    //       key={el.id}
+    //       title={el.title}
+    //       year={el.year}
+    //       rating={el.rating}
+    //       genres={el.genres}
+    //       image={el.image}
+    //       views={el.views}
+    //       cardSize={CardSize.small}
+    //       imageHeight={200}
+    //       imageWidth={150}
+    //     />
+    //   ))}
+    // </Container>
   );
 }
 

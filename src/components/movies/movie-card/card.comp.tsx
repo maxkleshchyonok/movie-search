@@ -1,9 +1,11 @@
 import styled from "@emotion/styled";
-import { ActionIcon, Image, Text, Title } from "@mantine/core";
-import React, { MouseEventHandler } from "react";
+import { ActionIcon, Image, Modal, Text, Title } from "@mantine/core";
+import React, { MouseEventHandler, useEffect, useState } from "react";
 import RatingIcon from "@/components/rating-icon/rating-icon.comp";
 import colors from "@/helpers/index";
 import { useRouter } from "next/navigation";
+import RatingModal from "@/components/rating-modal/rating-modal.comp";
+import { useDisclosure } from "@mantine/hooks";
 
 export enum CardSize {
   small = "small",
@@ -11,7 +13,7 @@ export enum CardSize {
 }
 
 type Props = {
-  id: number;
+  id: string;
   title: string;
   year: number;
   rating: number;
@@ -65,12 +67,37 @@ const DetailedMovieInfo = styled("div")`
   margin-top: 10vh;
 `;
 
+const RatingBox = styled("div")`
+  display: flex;
+  align-items: center;
+  margin-bottom: auto;
+  margin-left: auto;
+`;
+
 function MovieCard(props: Props) {
   const router = useRouter();
 
   const handleClick = (e: any) => {
     e.preventDefault();
     router.push(`movie/${props.id}`);
+  };
+
+  const [rating, setRating] = useState("");
+
+  useEffect(() => {
+    const ratingCount = localStorage.getItem(`movie_rating_${props.id}`);
+    if (ratingCount) {
+      setRating(ratingCount);
+    }
+  }, []);
+
+  const [opened, { open, close }] = useDisclosure(false);
+
+  const handleRateChange = (rate: number) => {
+    if (rate === 0) {
+      return setRating("");
+    }
+    return setRating(rate.toString());
   };
 
   return (
@@ -104,13 +131,22 @@ function MovieCard(props: Props) {
         )}
         <Genres>Genres {props.genres.map((genre) => genre)}</Genres>
       </MovieDetails>
-      <ActionIcon
-        variant="transparent"
-        aria-label="rating"
-        sx={{ marginLeft: "auto" }}
-      >
-        <RatingIcon color={colors["grey-300"]} />
-      </ActionIcon>
+      <RatingBox>
+        <ActionIcon variant="transparent" aria-label="rating" onClick={open}>
+          <RatingIcon
+            color={rating ? colors["purple-500"] : colors["grey-300"]}
+          />
+        </ActionIcon>
+        {rating && <Title order={4}>{rating}</Title>}
+      </RatingBox>
+      <Modal opened={opened} onClose={close} title="Your rating" centered>
+        <RatingModal
+          id={`movie_rating_${props.id}`}
+          title={props.title}
+          rating={rating}
+          callback={handleRateChange}
+        />
+      </Modal>
     </Container>
   );
 }
