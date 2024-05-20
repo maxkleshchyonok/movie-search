@@ -7,7 +7,7 @@
       "@/components/*": ["src/components/*"],
       "@/assets/*": ["src/assets/*"],
       "@/helpers/*": ["src/helpers/*"],
-      "@/types/*": ["src/types"]
+      "@/types/*": ["src/types/*"]
     },
     "allowJs": true,
     "skipLibCheck": true,

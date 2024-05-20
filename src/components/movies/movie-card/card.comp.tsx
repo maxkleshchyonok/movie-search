@@ -13,18 +13,18 @@ export enum CardSize {
 }
 
 type Props = {
-  id: string;
+  id: number;
   title: string;
-  year: number;
+  year: string;
   rating: number;
   views: number;
-  genres: string[];
+  genres: number[];
   image: string;
   details?: {
-    duration: string;
+    duration: number;
     premiere: string;
-    budget: string;
-    gross: string;
+    budget: number;
+    gross: number;
   };
   cardSize: CardSize;
   imageHeight: number;
@@ -106,7 +106,7 @@ function MovieCard(props: Props) {
       <Image
         w={props.imageWidth}
         h={props.imageHeight}
-        src={props.image}
+        src={`https://image.tmdb.org/t/p/w500${props.image}`}
         alt="poster"
         fallbackSrc="https://placehold.co/600x400?text=Placeholder"
       />

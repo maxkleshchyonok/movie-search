@@ -1,7 +1,9 @@
 import colors from "@/helpers/index";
+import { MovieDetailsType } from "@/types/movies/movies";
 import styled from "@emotion/styled";
-import { Divider, Text, Title } from "@mantine/core";
+import { AspectRatio, Divider, Image, Text, Title } from "@mantine/core";
 import React from "react";
+import no_movies_img from "@/assets/no-movies.png";
 
 const Container = styled("div")`
   width: 88%;
@@ -10,26 +12,60 @@ const Container = styled("div")`
   padding: 2%;
 `;
 
-function DetailedMovieInfo() {
+const StyledAspectRatio = styled(AspectRatio)`
+  width: 70%;
+`;
+
+const StyledIframe = styled("iframe")`
+  border-radius: 16px;
+`;
+
+const Companies = styled("div")`
+  display: flex;
+  align-items: center;
+  gap: 2%;
+`;
+
+function DetailedMovieInfo(
+  props: Pick<MovieDetailsType, "videos" | "overview" | "production_companies">
+) {
+  const { videos, overview, production_companies } = props;
+
+  let video = videos.results.find((el) => el.official);
+
+  if (!video) {
+    video = videos.results[0];
+  }
+
   return (
     <Container>
       <Title order={3}>Trailer</Title>
-      <p>Trailer will be here...</p>
+      <StyledAspectRatio ratio={16 / 9}>
+        <StyledIframe src={`https://www.youtube.com/embed/${video.key}`} />
+      </StyledAspectRatio>
       <Divider my="md" />
 
       <Title order={3}>Description</Title>
-      <Text size="md">
-        When variant prop is set to gradient, you can control gradient with
-        gradient prop, it accepts an object with from, to and deg properties. If
-        thegradient prop is not set, Text will use theme.defaultGradient which
-        can be configured on the theme object. gradient prop is ignored when
-        variant is not gradient.
-      </Text>
+      <Text size="md">{overview}</Text>
       <Divider my="md" />
 
       <Title order={3}>Production</Title>
-      <Text>Castle Rock Entertainment</Text>
-      <Text>Darkwoods Productions</Text>
+      {production_companies.map((el) => (
+        <Companies key={el.id}>
+          {el.logo_path ? (
+            <Image
+              w={50}
+              src={`https://image.tmdb.org/t/p/w500/${el.logo_path}`}
+            />
+          ) : (
+            <Image
+              w={50}
+              src="https://d1nhio0ox7pgb.cloudfront.net/_img/i_collection_png/512x512/plain/clapperboard.png"
+            />
+          )}
+          <Title order={4}>{el.name}</Title>
+        </Companies>
+      ))}
     </Container>
   );
 }

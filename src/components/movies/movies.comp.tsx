@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import MovieCard, { CardSize } from "./movie-card/card.comp";
 import styled from "@emotion/styled";
 import { RatedMovies } from "app/rated/page";
+import { MoviesType } from "@/types/movies/movies";
+import { GET_Movies } from "app/api/route";
 
 // const movies = [
 //   {
@@ -93,65 +95,40 @@ const Container = styled("div")`
 `;
 
 function Movies(props: Props) {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<MoviesType>();
+  const [page, setPage] = useState("1");
 
-  const [ratedMovies, setRatedMovies] = useState<typeof movies>([]);
+  useEffect(() => {
+    const fetchMovies = async () => {
+      const allMovies = await GET_Movies();
+      const data: MoviesType = {
+        page: +page,
+        results: allMovies,
+        total_pages: 100,
+        total_results: 500,
+      };
+      setMovies(data);
+    };
+    fetchMovies();
+  }, []);
 
-  // useEffect(() => {
-  //   if (props?.movies) {
-  //     const newRatedMovies: typeof movies = [];
-  //     for (let i = 0; i < props.movies.length; i++) {
-  //       const matchedMovie = movies.find(
-  //         (movie) => props.movies[i].id === movie.id.toString()
-  //       );
-  //       if (matchedMovie) {
-  //         newRatedMovies.push({
-  //           id: props.movies[i].id,
-  //           title: matchedMovie.title,
-  //           year: matchedMovie.year,
-  //           rating: matchedMovie.rating,
-  //           views: matchedMovie.views,
-  //           image: matchedMovie.image,
-  //           genres: matchedMovie.genres,
-  //         });
-  //       }
-  //     }
-  //     setRatedMovies(newRatedMovies);
-  //   }
-  // }, []);
   return (
     <Container>
-      {ratedMovies.length
-        ? ratedMovies.map((el) => (
-            <MovieCard
-              id={el.id}
-              key={el.id}
-              title={el.title}
-              year={el.year}
-              rating={el.rating}
-              genres={el.genres}
-              image={el.image}
-              views={el.views}
-              cardSize={CardSize.small}
-              imageHeight={200}
-              imageWidth={150}
-            />
-          ))
-        : movies.map((el) => (
-            <MovieCard
-              id={el.id}
-              key={el.id}
-              title={el.title}
-              year={el.year}
-              rating={el.rating}
-              genres={el.genres}
-              image={el.image}
-              views={el.views}
-              cardSize={CardSize.small}
-              imageHeight={200}
-              imageWidth={150}
-            />
-          ))}
+      {movies?.results.map((el) => (
+        <MovieCard
+          id={el.id}
+          key={el.id}
+          title={el.title}
+          year={el.release_date}
+          rating={el.vote_average}
+          genres={el.genre_ids}
+          image={el.poster_path}
+          views={el.popularity}
+          cardSize={CardSize.small}
+          imageHeight={200}
+          imageWidth={150}
+        />
+      ))}
     </Container>
   );
 }
