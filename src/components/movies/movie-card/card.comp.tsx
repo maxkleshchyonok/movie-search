@@ -75,6 +75,7 @@ const RatingBox = styled("div")`
 `;
 
 function MovieCard(props: Props) {
+  const { title } = props;
   const router = useRouter();
 
   const handleClick = (e: any) => {
@@ -94,7 +95,7 @@ function MovieCard(props: Props) {
   const [opened, { open, close }] = useDisclosure(false);
 
   const handleRateChange = (rate: number) => {
-    if (rate === 0) {
+    if (!rate) {
       return setRating("");
     }
     return setRating(rate.toString());
@@ -111,7 +112,7 @@ function MovieCard(props: Props) {
       />
       <MovieDetails>
         <StyledTitle order={3} onClick={handleClick}>
-          {props.title}
+          {title}
         </StyledTitle>
         <Text>{props.year}</Text>
         <RatingViewsContainer>

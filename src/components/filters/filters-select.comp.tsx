@@ -101,7 +101,7 @@ export default function FiltersSelect({
           radius="md"
         >
           <Pill.Group>
-            {values.length > 0 ? (
+            {values.length ? (
               values
             ) : (
               <StyledInputPlaceholder>{placeholder}</StyledInputPlaceholder>

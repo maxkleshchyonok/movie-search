@@ -23,14 +23,14 @@ const StyledNativeSelect = styled(NativeSelect)`
 `;
 
 function SortingInput() {
-  const [dropdownShow, setDropdownShow] = useState<boolean>(false);
+  const [isDropdownShow, setIsDropdownShow] = useState<boolean>(false);
 
   const handleClick = () => {
-    setDropdownShow(!dropdownShow);
+    setIsDropdownShow(!isDropdownShow);
   };
 
   const handleClose = () => {
-    setDropdownShow(false);
+    setIsDropdownShow(false);
   };
 
   return (
@@ -40,7 +40,7 @@ function SortingInput() {
         onBlur={handleClose}
         radius="md"
         label="Sort by"
-        rightSection={<DropdownIcon status={dropdownShow} />}
+        rightSection={<DropdownIcon status={isDropdownShow} />}
         data={sortArray}
       />
     </SortingContainer>

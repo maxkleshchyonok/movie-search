@@ -31,7 +31,7 @@ export default function HomePage() {
         <StyledTitle>Movies</StyledTitle>
         <Filters />
         <SortingInput />
-        <Movies />
+        <Movies movies={null} />
         <PaginationElement />
       </AppShell.Main>
     </StyledAppShell>

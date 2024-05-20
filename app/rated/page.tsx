@@ -1,5 +1,4 @@
 "use client";
-import PaginationElement from "@/components/pagination/pagination.comp";
 import Sidebar from "@/components/sidebar/sidebar.comp";
 import colors from "@/helpers/index";
 import styled from "@emotion/styled";
@@ -8,8 +7,8 @@ import no_movies_img from "@/assets/no-movies.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import MovieCard from "@/components/movies/movie-card/card.comp";
 import Movies from "@/components/movies/movies.comp";
+import SearchMovie from "@/components/search/search.comp";
 
 export type RatedMovies = {
   id: string;
@@ -27,6 +26,13 @@ const NoMoviesContainer = styled("div")`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+`;
+
+const TopSection = styled("div")`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2% 5%;
 `;
 
 function Rated() {
@@ -57,6 +63,10 @@ function Rated() {
     >
       <Sidebar activeIndex={1} />
       <AppShell.Main>
+        <TopSection>
+          <Title order={1}>Rated movies</Title>
+          <SearchMovie />
+        </TopSection>
         {ratedMovies.length ? (
           <Movies movies={ratedMovies} />
         ) : (
