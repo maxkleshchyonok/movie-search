@@ -27,7 +27,7 @@ const NoMoviesContainer = styled("div")`
   justify-content: center;
 `;
 
-export const LoaderContainer = styled("div")`
+const LoaderContainer = styled("div")`
   width: 100%;
   margin-top: 29%;
   display: flex;
@@ -35,7 +35,7 @@ export const LoaderContainer = styled("div")`
   justify-content: center;
 `;
 
-function Rated() {
+function Page() {
   const [ratedMovies, setRatedMovies] = useState<RatedMovies[]>([]);
   const [isLoader, setIsLoader] = useState(true);
 
@@ -98,4 +98,4 @@ function Rated() {
   );
 }
 
-export default Rated;
+export default Page;
