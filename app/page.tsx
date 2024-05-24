@@ -4,9 +4,9 @@ import styled from "@emotion/styled";
 import Sidebar from "@/components/sidebar/sidebar.comp";
 import Filters from "@/components/filters/filters.comp";
 import Movies from "@/components/movies/movies.comp";
-import PaginationElement from "@/components/pagination/pagination.comp";
 import colors from "@/helpers/index";
 import SortFilter from "@/components/sorting/sorting.comp";
+import { Suspense } from "react";
 
 const sortArray: string[] = [
   "Most Popular",
@@ -44,10 +44,12 @@ export default function HomePage() {
     >
       <Sidebar activeIndex={0} />
       <AppShell.Main>
-        <StyledTitle>Movies</StyledTitle>
-        <Filters />
-        <SortFilter optionsArray={sortArray} />
-        <Movies movies={null} />
+        <Suspense>
+          <StyledTitle>Movies</StyledTitle>
+          <Filters />
+          <SortFilter optionsArray={sortArray} />
+          <Movies movies={null} />
+        </Suspense>
       </AppShell.Main>
     </StyledAppShell>
   );
