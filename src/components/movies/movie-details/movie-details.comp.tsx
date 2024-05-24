@@ -8,7 +8,8 @@ import { useParams } from "next/navigation";
 import { MovieDetailsType } from "@/types/movies/movies";
 
 const Container = styled("div")`
-  margin-left: 10%;
+  margin-left: 12.5%;
+  margin-top: 2%;
 `;
 
 function MovieDetails() {
@@ -17,7 +18,7 @@ function MovieDetails() {
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
-      const detailedMovie = await GET_Movie_by_id(+id);
+      const detailedMovie = await GET_Movie_by_id(id as string);
       setMovie(detailedMovie);
     };
     fetchMovieDetails();
@@ -37,7 +38,7 @@ function MovieDetails() {
             id={movie.id}
             key={movie.id}
             title={movie.title}
-            year={movie.release_date}
+            year={movie.release_date.split("-")[0]}
             rating={movie.vote_average}
             genres={movie.genres.map((genre) => {
               return genre.id;
@@ -51,8 +52,8 @@ function MovieDetails() {
               premiere: movie.release_date,
             }}
             cardSize={CardSize.big}
-            imageHeight={300}
-            imageWidth={250}
+            imageHeight={350}
+            imageWidth={260}
           />
           <DetailedMovieInfo
             videos={movie.videos}

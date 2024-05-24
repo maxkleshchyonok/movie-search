@@ -8,6 +8,21 @@ import RatingModal from "@/components/rating-modal/rating-modal.comp";
 import { useDisclosure } from "@mantine/hooks";
 import { GET_Genres } from "app/api/route";
 
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 export enum CardSize {
   small = "small",
   big = "big",
@@ -42,7 +57,7 @@ const Container = styled("div")`
   border-radius: 12px;
   padding: 2%;
   display: flex;
-  margin-bottom: 2%;
+  margin: -3.5% 0 5% -1%;
 `;
 
 const StyledTitle = styled(Title)`
@@ -60,13 +75,39 @@ const RatingViewsContainer = styled("div")`
   display: flex;
 `;
 
+const StyledViews = styled(Title)`
+  color: ${colors["grey-600"]};
+  margin-left: 4%;
+  font-weight: 500;
+`;
+
 const Genres = styled("div")`
   margin-top: auto;
+  margin-left: 2.1%;
+  height: 3vh;
   overflow: hidden;
 `;
 
 const DetailedMovieInfo = styled("div")`
-  margin-top: 10vh;
+  display: flex;
+  margin-left: 2%;
+  margin-top: auto;
+`;
+
+const DetailedBlock = styled("div")`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 40%;
+`;
+
+const GreyTitle = styled(Title)`
+  color: ${colors["grey-600"]};
+  font-weight: 500;
+`;
+
+const BlackTitle = styled(Title)`
+  font-weight: 500;
 `;
 
 const RatingBox = styled("div")`
@@ -122,8 +163,17 @@ function MovieCard(props: Props) {
     return setRating(rate.toString());
   };
 
+  const viewsCount = `(${props.views.toFixed(0)}K)`;
+  const convertDate = (oldDate: string) => {
+    const date = new Date(oldDate);
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    return `${month} ${day}, ${year}`;
+  };
+
   return (
-    <Container width={props.cardSize === CardSize.small ? "49%" : "88%"}>
+    <Container width={props.cardSize === CardSize.small ? "43%" : "73%"}>
       <Image
         w={props.imageWidth}
         h={props.imageHeight}
@@ -135,23 +185,32 @@ function MovieCard(props: Props) {
         <StyledTitle order={3} onClick={handleClick}>
           {title}
         </StyledTitle>
-        <Text>{props.year}</Text>
+        <Text sx={{ color: colors["grey-600"] }}>{props.year}</Text>
         <RatingViewsContainer>
           <RatingIcon color={colors.yellow} />
-          <Title order={4}>
-            {props.rating} / {props.views}
-          </Title>
+          <Title order={4}>{props.rating.toFixed(1)}</Title>
+          <StyledViews order={4}>{viewsCount}</StyledViews>
         </RatingViewsContainer>
         {props.details && (
           <DetailedMovieInfo>
-            {Object.entries(props.details).map(([key, value]) => (
-              <div key={key}>
-                {key[0].toUpperCase() + key.slice(1)} {value}
-              </div>
-            ))}
+            <DetailedBlock>
+              <GreyTitle order={5}>Duration</GreyTitle>
+              <GreyTitle order={5}>Premiere</GreyTitle>
+              <GreyTitle order={5}>Budget</GreyTitle>
+              <GreyTitle order={5}>Gross worldwide</GreyTitle>
+              <GreyTitle order={5}>Genres</GreyTitle>
+            </DetailedBlock>
+            <DetailedBlock>
+              <BlackTitle order={5}>{props.details.duration}m</BlackTitle>
+              <BlackTitle order={5}>
+                {convertDate(props.details.premiere)}
+              </BlackTitle>
+              <BlackTitle order={5}>${props.details.budget}</BlackTitle>
+              <BlackTitle order={5}>${props.details.gross}</BlackTitle>
+              <BlackTitle order={5}>${genresInfo}</BlackTitle>
+            </DetailedBlock>
           </DetailedMovieInfo>
         )}
-        <Genres>Genres {genresInfo}</Genres>
       </MovieDetails>
       <RatingBox>
         <ActionIcon variant="transparent" aria-label="rating" onClick={open}>
@@ -161,7 +220,13 @@ function MovieCard(props: Props) {
         </ActionIcon>
         {rating && <Title order={4}>{rating}</Title>}
       </RatingBox>
-      <Modal opened={opened} onClose={close} title="Your rating" centered>
+      <Modal
+        radius="md"
+        opened={opened}
+        onClose={close}
+        title="Your rating"
+        centered
+      >
         <RatingModal
           id={`movie_rating_${props.id}`}
           title={props.title}

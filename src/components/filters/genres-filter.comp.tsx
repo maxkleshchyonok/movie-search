@@ -20,17 +20,8 @@ type Props = {
 };
 
 const StyledCombobox = styled(Combobox)`
-  width: 20%;
+  width: 28%;
 `;
-
-const StyledInputPlaceholder = styled(Input.Placeholder)`
-  margin-left: 2%;
-`;
-
-// const StyledLink = styled(Link)`
-//   text-decoration: none;
-//   color: black;
-// `;
 
 const MAX_DISPLAYED_VALUES = 2;
 
@@ -164,6 +155,10 @@ export default function GenresFilter({ optionsArray }: Props) {
           onClick={handleDropdownCLick}
           label={"Genres"}
           radius="md"
+          size="md"
+          styles={{
+            label: { fontSize: "17px", marginBottom: "2%", fontWeight: "700" },
+          }}
         >
           <Pill.Group>
             {value.length > 0 ? (
@@ -174,7 +169,7 @@ export default function GenresFilter({ optionsArray }: Props) {
                 )}
               </>
             ) : (
-              <StyledInputPlaceholder>{"Select genre"}</StyledInputPlaceholder>
+              <Input.Placeholder>{"Select genre"}</Input.Placeholder>
             )}
             <Combobox.EventsTarget>
               <PillsInput.Field

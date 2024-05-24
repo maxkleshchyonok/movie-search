@@ -11,7 +11,7 @@ type Props = {
 };
 
 const StyledTextInput = styled(TextInput)`
-  width: 42%;
+  width: 50%;
 `;
 
 function SearchMovie(props: Props) {

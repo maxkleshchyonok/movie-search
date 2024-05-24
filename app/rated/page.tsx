@@ -93,24 +93,6 @@ function Rated() {
             </Button>
           </NoMoviesContainer>
         )}
-        {/* {ratedMovies.length ? (
-          <Movies movies={ratedMovies} />
-        ) : (
-          <NoMoviesContainer>
-            <Image src={no_movies_img} alt="no-movies-yet" />
-            <Title order={2}>You haven't rated any films yet</Title>
-            <Button
-              onClick={handleClick}
-              variant="filled"
-              color={colors["purple-500"]}
-              size="md"
-              radius="md"
-              sx={{ marginTop: "2%" }}
-            >
-              Find movies
-            </Button>
-          </NoMoviesContainer>
-        )} */}
       </AppShell.Main>
     </StyledAppShell>
   );

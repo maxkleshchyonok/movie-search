@@ -11,7 +11,7 @@ function ResetFilters() {
   return (
     <UnstyledButton
       onClick={handleClck}
-      sx={{ color: colors["grey-600"], paddingTop: "2%" }}
+      sx={{ color: colors["grey-600"], paddingTop: "3%" }}
     >
       Reset filters
     </UnstyledButton>

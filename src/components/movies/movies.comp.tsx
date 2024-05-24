@@ -32,14 +32,14 @@ const TopSection = styled("div")`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 2% 5%;
+  margin: 1.5% 17% 3% 4.3%;
 `;
 
 const NoMoviesContainer = styled("div")`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 5% 0 0 20%;
+  padding: 0 0 0 20%;
 `;
 
 const PaginationContainer = styled("div")`
@@ -116,6 +116,7 @@ function Movies(props: Props) {
       fetchMovies();
     }
     setIsLoader(false);
+    console.log(movies);
   }, [searchParams]);
 
   const handleSearchChange = (value: string) => {
@@ -158,13 +159,13 @@ function Movies(props: Props) {
                       id={el.id}
                       key={el.id}
                       title={el.title}
-                      year={el.release_date}
+                      year={el.release_date.split("-")[0]}
                       rating={el.vote_average}
                       genres={el.genres.map((el) => el.id)}
                       image={el.poster_path}
                       views={el.popularity}
                       cardSize={CardSize.small}
-                      imageHeight={200}
+                      imageHeight={170}
                       imageWidth={150}
                     />
                   ) : index === ratedMovies.length - 1 ? (
@@ -183,13 +184,13 @@ function Movies(props: Props) {
                     id={el.id}
                     key={el.id}
                     title={el.title}
-                    year={el.release_date}
+                    year={el.release_date.split("-")[0]}
                     rating={el.vote_average}
                     genres={el.genres.map((el) => el.id)}
                     image={el.poster_path}
                     views={el.popularity}
                     cardSize={CardSize.small}
-                    imageHeight={200}
+                    imageHeight={170}
                     imageWidth={150}
                   />
                 ))}
@@ -212,17 +213,29 @@ function Movies(props: Props) {
               id={el.id}
               key={el.id}
               title={el.title}
-              year={el.release_date}
+              year={el.release_date.split("-")[0]}
               rating={el.vote_average}
               genres={el.genre_ids}
               image={el.poster_path}
               views={el.popularity}
               cardSize={CardSize.small}
-              imageHeight={200}
+              imageHeight={170}
               imageWidth={150}
             />
           ))}
-          {isLoader ? "" : <PaginationElement />}
+          {movies?.results.length === 0 && (
+            <NoMoviesContainer>
+              <Image src={no_movies_searched} alt="no-movies-found" />
+              <Title order={3}>
+                We don't have such movies, look for another one
+              </Title>
+            </NoMoviesContainer>
+          )}
+          {isLoader || movies?.results.length === 0 ? (
+            ""
+          ) : (
+            <PaginationElement />
+          )}
         </Container>
       )}
     </>

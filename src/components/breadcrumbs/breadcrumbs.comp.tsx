@@ -14,7 +14,7 @@ function BreadcrumbsElement({ items }: Props) {
     <Breadcrumbs
       styles={{
         breadcrumb: { color: colors["purple-500"] },
-        root: { margin: "2% 0 4% 0" },
+        root: { margin: "2% 0 6% -1%" },
       }}
     >
       {items.map((item, index) => (

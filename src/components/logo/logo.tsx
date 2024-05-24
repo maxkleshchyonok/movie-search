@@ -9,8 +9,9 @@ const StyledLogo = styled("div")`
   display: flex;
   align-items: center;
   color: ${colors["purple-500"]};
-  gap: 3%;
+  gap: 4%;
   margin-bottom: 8vh;
+  padding: 2.5%;
 `;
 
 function LogoComponent() {

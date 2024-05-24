@@ -13,7 +13,7 @@ function SearchButton(props: Props) {
     <Button
       variant="filled"
       color={colors["purple-500"]}
-      sx={{ borderRadius: "8px" }}
+      sx={{ borderRadius: "8px", width: "90%", marginRight: "12%" }}
       onClick={() => {
         props.callback(props.value);
       }}

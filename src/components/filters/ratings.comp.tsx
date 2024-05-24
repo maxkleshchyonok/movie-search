@@ -15,8 +15,9 @@ const InputsContainer = styled("div")`
 `;
 
 const StyledTitle = styled(Title)`
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 700;
+  margin-bottom: 2%;
 `;
 
 const StyledNumberInput = styled(NumberInput)`
@@ -73,6 +74,7 @@ function RatingsFilter() {
           allowNegative={false}
           decimalScale={1}
           onChange={setMinValue}
+          size="md"
           styles={{
             control: {
               color: colors["grey-500"],

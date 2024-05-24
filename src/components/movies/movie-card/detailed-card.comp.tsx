@@ -6,10 +6,12 @@ import React from "react";
 import no_movies_img from "@/assets/no-movies.png";
 
 const Container = styled("div")`
-  width: 88%;
+  width: 73%;
   background: ${colors.white};
   border-radius: 12px;
   padding: 2%;
+  margin-left: -1%;
+  margin-top: -3%;
 `;
 
 const StyledAspectRatio = styled(AspectRatio)`

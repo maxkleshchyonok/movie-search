@@ -8,8 +8,9 @@ import YearFilter from "./year-filter.comp";
 
 const FiltersContainer = styled("div")`
   display: flex;
+  width: 80%;
   gap: 3%;
-  margin: 4% 5%;
+  margin: 3.3% 4.4% 2.1% 4.4%;
 `;
 
 function Filters() {

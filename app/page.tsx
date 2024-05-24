@@ -31,7 +31,8 @@ const StyledTitle = styled(Title)`
   color: black;
   font-weight: 700;
   font-size: 32px;
-  margin-left: 5%;
+  margin-left: 4.5%;
+  margin-top: 2%;
 `;
 
 export default function HomePage() {
@@ -47,7 +48,6 @@ export default function HomePage() {
         <Filters />
         <SortFilter optionsArray={sortArray} />
         <Movies movies={null} />
-        {/* <PaginationElement /> */}
       </AppShell.Main>
     </StyledAppShell>
   );

@@ -5,7 +5,8 @@ import LogoComponent from "../logo/logo";
 import colors from "@/helpers/index";
 
 const StyledNavbar = styled(AppShell.Navbar)`
-  background: #f2ecfa;
+  background: ${colors["purple-100"]};
+  width: 17.7%;
 `;
 
 const SidebarArray = [
@@ -27,8 +28,28 @@ export default function Sidebar({ activeIndex }: { activeIndex: number }) {
           variant="filled"
           style={{
             color: activeIndex === index ? colors["purple-500"] : colors.black,
+            fontWeight: activeIndex === index ? "700" : "500",
           }}
-          sx={{ borderRadius: "8px", marginTop: "5%" }}
+          styles={{
+            label: {
+              fontSize: "17px",
+              ":hover": {
+                color: `${
+                  activeIndex !== index
+                    ? colors["purple-400"]
+                    : colors["purple-500"]
+                }`,
+              },
+            },
+            root: {
+              ":hover": {
+                background: `${
+                  activeIndex !== index ? "transparent" : colors["purple-200"]
+                }`,
+              },
+            },
+          }}
+          sx={{ borderRadius: "8px", margin: "5% 0 0 2.3%", width: "95%" }}
         />
       ))}
     </StyledNavbar>

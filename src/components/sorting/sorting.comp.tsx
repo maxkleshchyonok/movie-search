@@ -1,91 +1,8 @@
-// import styled from "@emotion/styled";
-// import { NativeSelect } from "@mantine/core";
-// import React, { useEffect, useState } from "react";
-// import DropdownIcon from "@/components/dropdown-icon/dropdown-icon.comp";
-// import { useRouter, useSearchParams } from "next/navigation";
-
-// const sortArray: string[] = [
-//   "Most Popular",
-//   "Least Popular",
-//   "Most Rated",
-//   "Least Rated",
-//   "Most Voted",
-//   "Least Voted",
-//   "Title ↑",
-//   "Title ↓",
-//   "Revenue most",
-//   "Revenue least",
-//   "Release latest",
-//   "Release oldest",
-// ];
-
-// const SortingContainer = styled("div")`
-//   width: 90%;
-//   display: flex;
-//   justify-content: flex-end;
-// `;
-
-// const StyledNativeSelect = styled(NativeSelect)`
-//   width: 25%;
-// `;
-
-// function SortingInput() {
-//   const [value, setValue] = useState("");
-//   const [isDropdownShow, setIsDropdownShow] = useState<boolean>(false);
-//   const router = useRouter();
-//   const searchParams = useSearchParams();
-//   const selectedSort = searchParams.get("sort_by");
-
-//   useEffect(() => {
-//     if (selectedSort) {
-//       setValue(selectedSort);
-//     }
-//   }, [searchParams]);
-
-//   useEffect(() => {
-//     const newSearchParams = new URLSearchParams(searchParams);
-//     if (value) {
-//       newSearchParams.set("sort_by", value);
-//     } else {
-//       newSearchParams.delete("sort_by");
-//     }
-//     router.push(`?${newSearchParams}`);
-//   }, [value, searchParams]);
-
-//   const handleClick = () => {
-//     setIsDropdownShow(!isDropdownShow);
-//   };
-
-//   const handleClose = () => {
-//     setIsDropdownShow(false);
-//   };
-
-//   return (
-//     <SortingContainer>
-//       <StyledNativeSelect
-//         value={value}
-//         onClick={handleClick}
-//         onBlur={handleClose}
-//         onChange={(event) => setValue(event.currentTarget.value)}
-//         radius="md"
-//         label="Sort by"
-//         rightSection={<DropdownIcon status={isDropdownShow} />}
-//         data={sortArray}
-//       />
-//     </SortingContainer>
-//   );
-// }
-
-// export default SortingInput;
-
 import { useEffect, useState } from "react";
 import {
   Combobox,
-  Group,
   Input,
   InputBase,
-  Pill,
-  PillsInput,
   ScrollArea,
   useCombobox,
 } from "@mantine/core";
@@ -130,12 +47,8 @@ type Props = {
 };
 
 const StyledCombobox = styled(Combobox)`
-  width: 20%;
-  margin-left: 75%;
-`;
-
-const StyledInputPlaceholder = styled(Input.Placeholder)`
-  margin-left: 2%;
+  width: 23%;
+  margin-left: 60%;
 `;
 
 export const StyledLink = styled(Link)`
@@ -161,8 +74,6 @@ export const StyledActiveLink = styled(StyledLink)`
     background: ${colors["purple-500"]};
   }
 `;
-
-const MAX_DISPLAYED_VALUES = 2;
 
 export default function SortFilter({ optionsArray }: Props) {
   const combobox = useCombobox({
@@ -256,6 +167,7 @@ export default function SortFilter({ optionsArray }: Props) {
     >
       <Combobox.Target>
         <InputBase
+          size="md"
           value={value}
           component="button"
           type="button"
@@ -265,6 +177,13 @@ export default function SortFilter({ optionsArray }: Props) {
           radius="md"
           onClick={() => combobox.toggleDropdown()}
           rightSectionPointerEvents="none"
+          styles={{
+            label: {
+              marginBottom: "2%",
+              fontSize: "17px",
+              fontWeight: "700",
+            },
+          }}
         >
           {value || <Input.Placeholder>Pick value</Input.Placeholder>}
         </InputBase>

@@ -16,7 +16,7 @@ type Props = {
 };
 
 const StyledCombobox = styled(Combobox)`
-  width: 20%;
+  width: 28%;
 `;
 
 const MAX_DISPLAYED_VALUES = 2;
@@ -104,6 +104,7 @@ export default function YearFilter({ optionsArray }: Props) {
     >
       <Combobox.Target>
         <InputBase
+          size="md"
           component="button"
           type="button"
           pointer
@@ -112,6 +113,9 @@ export default function YearFilter({ optionsArray }: Props) {
           radius="md"
           onClick={() => combobox.toggleDropdown()}
           rightSectionPointerEvents="none"
+          styles={{
+            label: { fontSize: "17px", marginBottom: "2%", fontWeight: "700" },
+          }}
         >
           {value || <Input.Placeholder>Pick value</Input.Placeholder>}
         </InputBase>
