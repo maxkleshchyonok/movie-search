@@ -9,9 +9,7 @@ import axios from "axios";
 const accessToken =
   "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5OGE1NmEwMzA0ZTQyNmQ1NmJhYjE1N2YyOTY2YWMzMCIsInN1YiI6IjY2NDg2ZTI3YjZmNjA5ZWFhYjBhYmMxOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.tDC9bsj5j7w8EqY7stzXVZsYYSYt3Lj_lcC-dhKWHos";
 
-export async function GET_Movies(
-  props: GetMovieParams
-): Promise<MoviesResults[]> {
+export async function GET_Movies(props: GetMovieParams) {
   const { genres, release, sort_by, min_rate, max_rate, page } = props;
 
   const genresArr = genres?.split(/(?=[A-Z])/);
@@ -51,10 +49,10 @@ export async function GET_Movies(
 
   try {
     const response = await axios.request(options);
-    return response.data.results;
+    return new Response(JSON.stringify(response.data.results), { status: 200 });
   } catch (error) {
     console.log(error);
-    return [];
+    return new Response("error", { status: 400 });
   }
 }
 
