@@ -6,7 +6,8 @@ import colors from "@/helpers/index";
 import { useRouter } from "next/navigation";
 import RatingModal from "@/components/rating-modal/rating-modal.comp";
 import { useDisclosure } from "@mantine/hooks";
-import { GET_Genres } from "app/api/route";
+import { GenresList } from "@/types/movies/movies";
+import axios from "axios";
 
 const months = [
   "January",
@@ -137,6 +138,27 @@ function MovieCard(props: Props) {
   }, []);
 
   useEffect(() => {
+    async function GET_Genres(): Promise<GenresList | undefined> {
+      const accessToken =
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5OGE1NmEwMzA0ZTQyNmQ1NmJhYjE1N2YyOTY2YWMzMCIsInN1YiI6IjY2NDg2ZTI3YjZmNjA5ZWFhYjBhYmMxOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.tDC9bsj5j7w8EqY7stzXVZsYYSYt3Lj_lcC-dhKWHos";
+
+      const options = {
+        method: "GET",
+        url: "https://api.themoviedb.org/3/genre/movie/list",
+        params: { language: "en" },
+        headers: {
+          accept: "application/json",
+          Authorization: accessToken,
+        },
+      };
+
+      try {
+        const response = await axios.request(options);
+        return response.data;
+      } catch (error) {
+        return undefined;
+      }
+    }
     async function fetchGenres() {
       let genresString = "";
       const allGenres = await GET_Genres();
