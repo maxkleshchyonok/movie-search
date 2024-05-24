@@ -172,7 +172,7 @@ function Movies(props: Props) {
                     <NoMoviesContainer key={el.id}>
                       <Image src={no_movies_searched} alt="no-movies-found" />
                       <Title order={2}>
-                        We don't have such movies, look for another one
+                        We dont have such movies, look for another one
                       </Title>
                     </NoMoviesContainer>
                   ) : (
@@ -227,7 +227,7 @@ function Movies(props: Props) {
             <NoMoviesContainer>
               <Image src={no_movies_searched} alt="no-movies-found" />
               <Title order={3}>
-                We don't have such movies, look for another one
+                We dont have such movies, look for another one
               </Title>
             </NoMoviesContainer>
           )}

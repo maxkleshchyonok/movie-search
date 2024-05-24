@@ -80,7 +80,7 @@ function Rated() {
         ) : (
           <NoMoviesContainer>
             <Image src={no_movies_img} alt="no-movies-yet" />
-            <Title order={2}>You haven't rated any films yet</Title>
+            <Title order={2}>You havent rated any films yet</Title>
             <Button
               onClick={handleClick}
               variant="filled"
