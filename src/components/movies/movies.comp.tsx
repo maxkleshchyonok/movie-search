@@ -9,6 +9,12 @@ import {
 } from "@/types/movies/movies";
 import { GET_Movie_by_id, GET_Movies } from "app/api/route";
 import { useSearchParams } from "next/navigation";
+import { Loader, Pagination, Title } from "@mantine/core";
+import SearchMovie from "../search/search.comp";
+import Image from "next/image";
+import no_movies_searched from "@/assets/no-movies-searched.png";
+import colors from "@/helpers/index";
+import PaginationElement from "@/components/pagination/pagination.comp";
 
 type Props = {
   movies: RatedMovies[] | null;
@@ -22,10 +28,44 @@ const Container = styled("div")`
   margin: 5%;
 `;
 
+const TopSection = styled("div")`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 2% 5%;
+`;
+
+const NoMoviesContainer = styled("div")`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5% 0 0 20%;
+`;
+
+const PaginationContainer = styled("div")`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -3%;
+`;
+
+export const LoaderContainer = styled("div")`
+  width: 100%;
+  margin-top: 8%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 function Movies(props: Props) {
   const [movies, setMovies] = useState<MoviesType>();
   const [ratedMovies, setRatedMovies] = useState<MovieDetailsType[]>([]);
-  const [page, setPage] = useState("1");
+  const [page, setPage] = useState(1);
+  const [searchValue, setSearchValue] = useState("");
+  const [paginatedRatedMovies, setPaginatedRatedMovies] = useState<
+    MovieDetailsType[][]
+  >([[]]);
+  const [isLoader, setIsLoader] = useState(true);
 
   const searchParams = useSearchParams();
   const selectedSort = searchParams.get("sort_by");
@@ -66,7 +106,7 @@ function Movies(props: Props) {
       const fetchMovies = async () => {
         const allMovies = await GET_Movies(params);
         const data: MoviesType = {
-          page: +page,
+          page: page,
           results: allMovies,
           total_pages: 100,
           total_results: 500,
@@ -75,28 +115,96 @@ function Movies(props: Props) {
       };
       fetchMovies();
     }
+    setIsLoader(false);
   }, [searchParams]);
+
+  const handleSearchChange = (value: string) => {
+    setSearchValue(value);
+  };
+
+  useEffect(() => {
+    setIsLoader(true);
+    if (ratedMovies.length) {
+      const paginatedArr: MovieDetailsType[][] = [];
+      for (let i = 0; i < ratedMovies.length; i += 4) {
+        paginatedArr.push(ratedMovies.slice(i, i + 4));
+      }
+      setPaginatedRatedMovies(paginatedArr);
+    }
+    setIsLoader(false);
+  }, [ratedMovies]);
 
   return (
     <>
+      {isLoader ? (
+        <LoaderContainer>
+          <Loader color={colors["purple-500"]} type="dots" size="xl" />
+        </LoaderContainer>
+      ) : (
+        ""
+      )}
+
       {props.movies ? (
-        <Container>
-          {ratedMovies.map((el) => (
-            <MovieCard
-              id={el.id}
-              key={el.id}
-              title={el.title}
-              year={el.release_date}
-              rating={el.vote_average}
-              genres={el.genres.map((el) => el.id)}
-              image={el.poster_path}
-              views={el.popularity}
-              cardSize={CardSize.small}
-              imageHeight={200}
-              imageWidth={150}
+        <>
+          <TopSection>
+            <Title order={1}>Rated movies</Title>
+            <SearchMovie callback={handleSearchChange} />
+          </TopSection>
+          <Container>
+            {searchValue
+              ? ratedMovies.map((el, index) =>
+                  el.title.toLowerCase().includes(searchValue) ? (
+                    <MovieCard
+                      id={el.id}
+                      key={el.id}
+                      title={el.title}
+                      year={el.release_date}
+                      rating={el.vote_average}
+                      genres={el.genres.map((el) => el.id)}
+                      image={el.poster_path}
+                      views={el.popularity}
+                      cardSize={CardSize.small}
+                      imageHeight={200}
+                      imageWidth={150}
+                    />
+                  ) : index === ratedMovies.length - 1 ? (
+                    <NoMoviesContainer key={el.id}>
+                      <Image src={no_movies_searched} alt="no-movies-found" />
+                      <Title order={2}>
+                        We don't have such movies, look for another one
+                      </Title>
+                    </NoMoviesContainer>
+                  ) : (
+                    ""
+                  )
+                )
+              : paginatedRatedMovies[page - 1].map((el) => (
+                  <MovieCard
+                    id={el.id}
+                    key={el.id}
+                    title={el.title}
+                    year={el.release_date}
+                    rating={el.vote_average}
+                    genres={el.genres.map((el) => el.id)}
+                    image={el.poster_path}
+                    views={el.popularity}
+                    cardSize={CardSize.small}
+                    imageHeight={200}
+                    imageWidth={150}
+                  />
+                ))}
+          </Container>
+          <PaginationContainer>
+            <Pagination
+              value={page}
+              onChange={setPage}
+              total={Math.ceil(ratedMovies.length / 4)}
+              siblings={0}
+              color={colors["purple-500"]}
+              sx={{ dots: { display: "none" } }}
             />
-          ))}
-        </Container>
+          </PaginationContainer>
+        </>
       ) : (
         <Container>
           {movies?.results.map((el) => (
@@ -114,6 +222,7 @@ function Movies(props: Props) {
               imageWidth={150}
             />
           ))}
+          {isLoader ? "" : <PaginationElement />}
         </Container>
       )}
     </>

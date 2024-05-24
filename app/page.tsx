@@ -47,7 +47,7 @@ export default function HomePage() {
         <Filters />
         <SortFilter optionsArray={sortArray} />
         <Movies movies={null} />
-        <PaginationElement />
+        {/* <PaginationElement /> */}
       </AppShell.Main>
     </StyledAppShell>
   );

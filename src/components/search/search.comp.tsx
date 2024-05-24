@@ -4,23 +4,30 @@ import SearchIcon from "@/components/search/search-icon/search-icon.comp";
 import styled from "@emotion/styled";
 import SearchButton from "@/components/search/search-button/search-button.comp";
 
+type CallbackFunction = (value: string) => void;
+
+type Props = {
+  callback: CallbackFunction;
+};
+
 const StyledTextInput = styled(TextInput)`
   width: 42%;
 `;
 
-function SearchMovie() {
+function SearchMovie(props: Props) {
   const [value, setValue] = useState("");
 
   const handleSearchClick = () => {
-    console.log("clicked");
+    props.callback(value);
   };
+
   return (
     <StyledTextInput
       value={value}
       onChange={(event) => setValue(event.currentTarget.value)}
       placeholder="Search movie title"
       leftSection={<SearchIcon />}
-      rightSection={<SearchButton callback={handleSearchClick} />}
+      rightSection={<SearchButton value={value} callback={handleSearchClick} />}
       rightSectionWidth={100}
       styles={{ input: { padding: "5% 0 5% 7%" } }}
       radius="md"

@@ -25,7 +25,7 @@ function PaginationElement() {
       value={activePage}
       onChange={setActivePage}
       color={colors["purple-500"]}
-      sx={{ marginLeft: "80%" }}
+      sx={{ marginLeft: "75%" }}
       styles={{
         dots: {
           display: "none",
