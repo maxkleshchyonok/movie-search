@@ -59,7 +59,7 @@ export async function GET_Movies(
 }
 
 export async function GET_Movie_by_id(
-  id: number
+  id: string
 ): Promise<MovieDetailsType | undefined> {
   const options = {
     method: "GET",

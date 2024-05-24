@@ -6,6 +6,7 @@ import colors from "@/helpers/index";
 import { useRouter } from "next/navigation";
 import RatingModal from "@/components/rating-modal/rating-modal.comp";
 import { useDisclosure } from "@mantine/hooks";
+import { GET_Genres } from "app/api/route";
 
 export enum CardSize {
   small = "small",
@@ -61,6 +62,7 @@ const RatingViewsContainer = styled("div")`
 
 const Genres = styled("div")`
   margin-top: auto;
+  overflow: hidden;
 `;
 
 const DetailedMovieInfo = styled("div")`
@@ -77,6 +79,7 @@ const RatingBox = styled("div")`
 function MovieCard(props: Props) {
   const { title } = props;
   const router = useRouter();
+  const [genresInfo, setGenresInfo] = useState("");
 
   const handleClick = (e: any) => {
     e.preventDefault();
@@ -90,6 +93,24 @@ function MovieCard(props: Props) {
     if (ratingCount) {
       setRating(ratingCount);
     }
+  }, []);
+
+  useEffect(() => {
+    async function fetchGenres() {
+      let genresString = "";
+      const allGenres = await GET_Genres();
+      if (allGenres && props.genres) {
+        for (let i = 0; i < allGenres?.genres.length; i++) {
+          for (let j = 0; j < props.genres.length; j++) {
+            if (props.genres[j] === allGenres.genres[i].id) {
+              genresString += ` ${allGenres.genres[i].name}`;
+            }
+          }
+        }
+      }
+      setGenresInfo(genresString);
+    }
+    fetchGenres();
   }, []);
 
   const [opened, { open, close }] = useDisclosure(false);
@@ -130,7 +151,7 @@ function MovieCard(props: Props) {
             ))}
           </DetailedMovieInfo>
         )}
-        <Genres>Genres {props.genres.map((genre) => genre)}</Genres>
+        <Genres>Genres {genresInfo}</Genres>
       </MovieDetails>
       <RatingBox>
         <ActionIcon variant="transparent" aria-label="rating" onClick={open}>

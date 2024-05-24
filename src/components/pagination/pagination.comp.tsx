@@ -19,13 +19,18 @@ function PaginationElement() {
 
   return (
     <Pagination
-      total={10}
+      total={499}
       boundaries={0}
-      siblings={0}
+      siblings={1}
       value={activePage}
       onChange={setActivePage}
       color={colors["purple-500"]}
       sx={{ marginLeft: "80%" }}
+      styles={{
+        dots: {
+          display: "none",
+        },
+      }}
     />
   );
 }

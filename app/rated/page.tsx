@@ -40,14 +40,20 @@ function Rated() {
 
   useEffect(() => {
     let keys = Object.keys(localStorage);
+    const filledRatedMovies: RatedMovies[] = [];
     for (let key of keys) {
       if (key.startsWith("movie_rating_")) {
+        filledRatedMovies.push({
+          id: key.slice(13),
+          rate: localStorage.getItem(key),
+        });
         setRatedMovies([
           ...ratedMovies,
           { id: key.slice(13), rate: localStorage.getItem(key) },
         ]);
       }
     }
+    setRatedMovies(filledRatedMovies);
   }, []);
 
   const router = useRouter();
