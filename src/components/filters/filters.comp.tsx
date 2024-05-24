@@ -1,34 +1,10 @@
-import React from "react";
-import FiltersSelect from "./filters-select.comp";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import RatingsFilter from "./ratings.comp";
 import ResetFilters from "./reset.comp";
-
-const genres: string[] = [
-  "Drama",
-  "Comedy",
-  "Animation",
-  "Thriller",
-  "Fantasy",
-  "Dramaa",
-  "Comedya",
-  "Animatiaon",
-  "Thrillera",
-  "Fantasya",
-];
-
-const releaseYear: string[] = [
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "11",
-  "21",
-  "31",
-  "41",
-  "51",
-];
+import { GET_Genres } from "app/api/route";
+import GenresFilter from "./genres-filter.comp";
+import YearFilter from "./year-filter.comp";
 
 const FiltersContainer = styled("div")`
   display: flex;
@@ -37,20 +13,32 @@ const FiltersContainer = styled("div")`
 `;
 
 function Filters() {
+  const [genresNames, setGenresNames] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchGenres = async () => {
+      const allGenres = await GET_Genres();
+      if (allGenres) {
+        setGenresNames(allGenres.genres.map((el) => el.name));
+      }
+    };
+    fetchGenres();
+  }, []);
+
   return (
     <FiltersContainer>
-      <FiltersSelect
-        title="Genres"
-        placeholder="Secelt genre"
-        optionsArray={genres}
-      />
-      <FiltersSelect
-        title="Release year"
-        placeholder="Select release year"
-        optionsArray={releaseYear}
-      />
-      <RatingsFilter />
-      <ResetFilters />
+      {genresNames && (
+        <>
+          <GenresFilter optionsArray={genresNames} />
+          <YearFilter
+            optionsArray={Array.from(new Array(175), (_, i) =>
+              (2024 - i).toString()
+            )}
+          />
+          <RatingsFilter />
+          <ResetFilters />
+        </>
+      )}
     </FiltersContainer>
   );
 }

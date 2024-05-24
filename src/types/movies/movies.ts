@@ -80,3 +80,19 @@ export type DetailsVideo = {
   size: number;
   type: string;
 };
+
+export type GenresList = {
+  genres: {
+    id: number;
+    name: string;
+  }[];
+};
+
+export type GetMovieParams = {
+  genres: string | null;
+  release: string | null;
+  sort_by: string | null;
+  min_rate: string | null;
+  max_rate: string | null;
+  page: string | null;
+};
